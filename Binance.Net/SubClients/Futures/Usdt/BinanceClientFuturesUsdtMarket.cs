@@ -36,6 +36,7 @@ namespace Binance.Net.SubClients.Futures.Usdt
         private const string takerBuySellVolumeRatioEndpoint = "takerlongshortRatio";
         private const string compositeIndexApi = "indexInfo";
         private const string klinesEndpoint = "klines";
+        private const string marketKlinesEndpoint = "klines";
         private const string publicVersion = "1";
         private const string tradingDataApi = "futures/data";
         /// <summary>
@@ -222,7 +223,12 @@ namespace Binance.Net.SubClients.Futures.Usdt
             parameters.AddOptionalParameter("endTime", endTime != null ? BinanceClient.ToUnixTimestamp(endTime.Value).ToString(CultureInfo.InvariantCulture) : null);
             parameters.AddOptionalParameter("limit", limit?.ToString(CultureInfo.InvariantCulture));
 
-            var result = await BaseClient.SendRequestInternal<IEnumerable<BinanceFuturesUsdtKline>>(FuturesClient.GetUrl(klinesEndpoint, Api, publicVersion), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+            var endpoint = klinesEndpoint;
+            if (symbol.StartsWith("p")) {
+                endpoint = marketKlinesEndpoint;
+            }
+
+            var result = await BaseClient.SendRequestInternal<IEnumerable<BinanceFuturesUsdtKline>>(FuturesClient.GetUrl(endpoint, Api, publicVersion), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
             return new WebCallResult<IEnumerable<IBinanceKline>>(result.ResponseStatusCode, result.ResponseHeaders, result.Data, result.Error);
         }
 
