@@ -36,7 +36,7 @@ namespace Binance.Net.SubClients.Futures.Usdt
         private const string takerBuySellVolumeRatioEndpoint = "takerlongshortRatio";
         private const string compositeIndexApi = "indexInfo";
         private const string klinesEndpoint = "klines";
-        private const string marketKlinesEndpoint = "klines";
+        private const string marketKlinesEndpoint = "marketKlines";
         private const string publicVersion = "1";
         private const string tradingDataApi = "futures/data";
         /// <summary>
